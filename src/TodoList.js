@@ -1,6 +1,6 @@
 // Core TODO list code.
 
-var reaction = false; 
+var reaction = false 
 
 export class TodoList {
   
@@ -114,11 +114,10 @@ export class Characters{
     reaction_image = false; 
   }
 
-  function changeCharacter(input){
+  changeCharacter(input){
     if(input = true){
       default_image = !default_image
       reaction_image = !reaction_image
-
     }
   }
 

@@ -6,22 +6,18 @@ export default {
 
   data: () => ({
     list: loadFromLocalStorage(),
-    dueDate: (() => {
+     dueDate: (() => {
       const date = new Date()
       console.log(date)
       return `${date.getUTCFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+     
     })(),
     itemToAdd: '',
-    reaction: false
+    imageSource: require('@/components/default_character.jpg')   
   }),
 
   methods: {
-    onFileChanged(event){
-      const file = event.target.files[0]
-    },
-    onUpload(){
-      // upload image??
-    },
+
     addItem() {
       if (this.itemToAdd) {
         console.log('Adding item: ', this.itemToAdd)
@@ -33,7 +29,6 @@ export default {
         this.list.addItem(this.itemToAdd, dueDate)
         this.itemToAdd = ''
         saveToLocalStorage(this.list)
-        reaction = true 
       }
     },
 
@@ -48,7 +43,7 @@ export default {
       if (confirm('Are you sure you want to clear the list?')) {
         this.list.clear()
         saveToLocalStorage(this.list)
-        reaction = false
+       
       }
     },
 
@@ -59,17 +54,24 @@ export default {
     deleteItemWithId(id) {
       this.list.deleteItemWithId(id)
       saveToLocalStorage(this.list)
-      reaction = false
+      
+    }, 
+    changeImage(){
+      if (this.imageSource === require('@/components/default_character.jpg')){
+        this.imageSource = require('@/components/reaction_character.jpg')
+      }else{
+        this.imageSource = require('@/components/default_character.jpg')
+      }
+      }
     }
   }
-}
+
 </script>
 
 <template>
-  <div> 
+  <div>
+    <img :src="imageSource"/>
     
-    <img src= "./default_image" alt = ""/>
-
   <ul>
     <li v-for="item in list.getItems()" :key="item.id">
       <span>
@@ -79,7 +81,7 @@ export default {
 
       <ul>
         <li>
-          <a @click="deleteItemWithId(item.id)">Delete</a>
+          <a @click="deleteItemWithId(item.id); changeImage()">Delete</a>
         </li>
       </ul>
     </li>
@@ -90,10 +92,10 @@ export default {
       <input id="text" type="text" v-model="itemToAdd" /> <br />
       <label for="due">Due Date: </label>
       <input id="due" type="date" :value="dueDate" @change="changeDate" /> <br />
-      <button @click="addItem">Add Item</button>
-      <button @click="clearList">Clear List</button> 
-    </div> 
-  </div>
+      <button @click="addItem(); changeImage()">Add Item</button>
+      <button @click="clearList(); changeImage()">Clear List</button> 
+    </div>
+  </div> 
 </template>
 
 <style>
