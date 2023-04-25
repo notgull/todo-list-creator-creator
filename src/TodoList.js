@@ -1,12 +1,17 @@
 // Core TODO list code.
 
+var reaction = false; 
+
 export class TodoList {
+  
+
   constructor() {
     this.items = []
   }
 
   addItem(desc, dueDate) {
     this.items.push(new TodoListItem(desc, dueDate))
+    reaction = true
   }
 
   getItems() {
@@ -21,10 +26,12 @@ export class TodoList {
 
   clear() {
     this.items = []
+    reaction = false
   }
 
   deleteItemWithId(id) {
     this.items = this.items.filter((item) => item.id !== id)
+    reaction = false
   }
 
   static fromJson(json) {
@@ -100,4 +107,19 @@ function serializedToDate(serialized) {
     serialized.minutes,
     serialized.seconds
   )
+}
+export class Characters{
+  constructor(){
+    default_imgae = true; 
+    reaction_image = false; 
+  }
+
+  function changeCharacter(input){
+    if(input = true){
+      default_image = !default_image
+      reaction_image = !reaction_image
+
+    }
+  }
+
 }
