@@ -6,7 +6,11 @@ export default {
 
   data: () => ({
     list: loadFromLocalStorage(),
-    dueDate: new Date() + 1000 * 60 * 60 * 24 * 7,
+    dueDate: (() => {
+      const date = new Date()
+      console.log(date)
+      return `${date.getUTCFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+    })(),
     itemToAdd: ''
   }),
 
@@ -14,7 +18,11 @@ export default {
     addItem() {
       if (this.itemToAdd) {
         console.log('Adding item: ', this.itemToAdd)
-        const dueDate = new Date() + 1000 * 60 * 60 * 24 * 7
+        const dueDate = new Date(
+          this.dueDate.split('-')[0],
+          this.dueDate.split('-')[1] - 1,
+          this.dueDate.split('-')[2]
+        )
         this.list.addItem(this.itemToAdd, dueDate)
         this.itemToAdd = ''
         saveToLocalStorage(this.list)
@@ -24,6 +32,7 @@ export default {
     formatDate(date) {
       // Format as MM/DD/YYYY
       console.log(typeof date)
+      console.log(date)
       return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
     },
 
@@ -32,6 +41,15 @@ export default {
         this.list.clear()
         saveToLocalStorage(this.list)
       }
+    },
+
+    changeDate(event) {
+      this.dueDate = event.target.value
+    },
+
+    deleteItemWithId(id) {
+      this.list.deleteItemWithId(id)
+      saveToLocalStorage(this.list)
     }
   }
 }
@@ -44,6 +62,12 @@ export default {
         {{ item.getDesc() }}
         (Due at {{ formatDate(item.getDueDate()) }})
       </span>
+
+      <ul>
+        <li>
+          <a @click="deleteItemWithId(item.id)">Delete</a>
+        </li>
+      </ul>
     </li>
   </ul>
 
@@ -51,7 +75,7 @@ export default {
     <label for="text">New Item: </label>
     <input id="text" type="text" v-model="itemToAdd" /> <br />
     <label for="due">Due Date: </label>
-    <input id="due" type="date" v-model="dueDate" /> <br />
+    <input id="due" type="date" :value="dueDate" @change="changeDate" /> <br />
     <button @click="addItem">Add Item</button>
     <button @click="clearList">Clear List</button>
   </div>

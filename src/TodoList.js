@@ -23,6 +23,10 @@ export class TodoList {
     this.items = []
   }
 
+  deleteItemWithId(id) {
+    this.items = this.items.filter((item) => item.id !== id)
+  }
+
   static fromJson(json) {
     const todoList = new TodoList()
     todoList.items = json.items.map((item) => TodoListItem.fromJson(item))
@@ -45,23 +49,19 @@ export class TodoListItem {
     return this.dueDate
   }
 
+  setDueDate(dueDate) {
+    this.dueDate = dueDate
+  }
+
   asJson() {
     return {
       desc: this.desc,
-      dueDate: this.dueDate
+      dueDate: dateToSerialized(this.dueDate)
     }
   }
 
   static fromJson(json) {
-    let dueDate
-
-    if (typeof json.dueDate === 'string') {
-      dueDate = new Date(json.dueDate)
-    } else {
-      dueDate = json.dueDate
-    }
-
-    return new TodoListItem(json.desc, dueDate)
+    return new TodoListItem(json.desc, serializedToDate(json.dueDate))
   }
 }
 
@@ -78,4 +78,26 @@ export function loadFromLocalStorage() {
     console.log(stored)
     return TodoList.fromJson(JSON.parse(stored))
   }
+}
+
+function dateToSerialized(date) {
+  return {
+    month: date.getMonth(),
+    day: date.getDate(),
+    year: date.getFullYear(),
+    hours: date.getHours(),
+    minutes: date.getMinutes(),
+    seconds: date.getSeconds()
+  }
+}
+
+function serializedToDate(serialized) {
+  return new Date(
+    serialized.year,
+    serialized.month,
+    serialized.day,
+    serialized.hours,
+    serialized.minutes,
+    serialized.seconds
+  )
 }
