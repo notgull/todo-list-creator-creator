@@ -62,10 +62,10 @@ export default {
     }, 
     changeImage(){
       if (reaction == true){
-        this.imageSource = require('@/components/reaction_character.jpg')
+        this.imageSource = import('@/components/reaction_character.jpg')
         reaction = false 
       }else{
-        this.imageSource = require('@/components/default_character.jpg')
+        this.imageSource = import('@/components/default_character.jpg')
       }
       }
     }
