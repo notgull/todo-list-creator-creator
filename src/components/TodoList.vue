@@ -38,7 +38,8 @@ export default {
       // Format as MM/DD/YYYY
       console.log(typeof date)
       console.log(date)
-      return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+      return "N/A"
+      //`${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
     },
 
     clearList() {
@@ -97,7 +98,7 @@ export default {
       <input id="due" type="date" :value="dueDate" @change="changeDate" /> <br />
       <button @click="addItem(); changeImage()">Add Item</button>
       <button @click="clearList(); changeImage()">Clear List</button> 
-      <h1 v-if ="reaction">Good Job!</h1>
+      <h1 v-if="reaction">Good Job!</h1>
       <h1 v-else>You got this!</h1>
     </div>
   </div>
