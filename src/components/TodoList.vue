@@ -13,7 +13,8 @@ export default {
      
     })(),
     itemToAdd: '',
-    imageSource: require('@/components/default_character.jpg')   
+    imageSource: require('@/components/default_character.jpg'),
+    reaction: true 
   }),
 
   methods: {
@@ -29,6 +30,7 @@ export default {
         this.list.addItem(this.itemToAdd, dueDate)
         this.itemToAdd = ''
         saveToLocalStorage(this.list)
+        reaction = true
       }
     },
 
@@ -54,11 +56,13 @@ export default {
     deleteItemWithId(id) {
       this.list.deleteItemWithId(id)
       saveToLocalStorage(this.list)
+      reaction = false 
       
     }, 
     changeImage(){
-      if (this.imageSource === require('@/components/default_character.jpg')){
+      if (reaction == true){
         this.imageSource = require('@/components/reaction_character.jpg')
+        reaction = false 
       }else{
         this.imageSource = require('@/components/default_character.jpg')
       }
@@ -68,10 +72,9 @@ export default {
 
 </script>
 
-<template>
+<template> 
   <div>
-    <img :src="imageSource"/>
-    
+    <img :src="imageSource" />
   <ul>
     <li v-for="item in list.getItems()" :key="item.id">
       <span>
@@ -94,8 +97,11 @@ export default {
       <input id="due" type="date" :value="dueDate" @change="changeDate" /> <br />
       <button @click="addItem(); changeImage()">Add Item</button>
       <button @click="clearList(); changeImage()">Clear List</button> 
+      <h1 v-if ="reaction">Good Job!</h1>
+      <h1 v-else>You got this!</h1>
     </div>
-  </div> 
+  </div>
+ 
 </template>
 
 <style>
