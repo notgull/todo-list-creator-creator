@@ -13,7 +13,7 @@ export default {
      
     })(),
     itemToAdd: '',
-    imageSource: require('@/components/default_character.jpg'),
+    imageSource: import('@/components/default_character.jpg'),
     reaction: true 
   }),
 
