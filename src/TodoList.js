@@ -19,6 +19,10 @@ export class TodoList {
     }
   }
 
+  clear() {
+    this.items = []
+  }
+
   static fromJson(json) {
     const todoList = new TodoList()
     todoList.items = json.items.map((item) => TodoListItem.fromJson(item))
@@ -49,7 +53,15 @@ export class TodoListItem {
   }
 
   static fromJson(json) {
-    return new TodoListItem(json.desc, json.dueDate)
+    let dueDate
+
+    if (typeof json.dueDate === 'string') {
+      dueDate = new Date(json.dueDate)
+    } else {
+      dueDate = json.dueDate
+    }
+
+    return new TodoListItem(json.desc, dueDate)
   }
 }
 
@@ -63,6 +75,7 @@ export function loadFromLocalStorage() {
   if (!stored) {
     return new TodoList()
   } else {
+    console.log(stored)
     return TodoList.fromJson(JSON.parse(stored))
   }
 }
