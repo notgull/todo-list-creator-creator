@@ -97,9 +97,11 @@ export default {
       <label for="due">Due Date: </label>
       <input id="due" type="date" :value="dueDate" @change="changeDate" /> <br />
       <button @click="addItem(); changeImage()">Add Item</button>
-      <button @click="clearList(); changeImage()">Clear List</button> 
-      <h1 v-if="reaction">Good Job!</h1>
+      <button @click="clearList(); changeImage()">Clear List</button>
+      
+      <h1 v-if="reaction">Done for the day!</h1>
       <h1 v-else>You got this!</h1>
+      <img src = './kermit.png' >
     </div>
   </div>
  
