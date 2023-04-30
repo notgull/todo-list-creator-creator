@@ -30,7 +30,7 @@ export default {
         this.list.addItem(this.itemToAdd, dueDate)
         this.itemToAdd = ''
         saveToLocalStorage(this.list)
-        reaction = true
+        this.reaction = true
       }
     },
 
@@ -38,8 +38,7 @@ export default {
       // Format as MM/DD/YYYY
       console.log(typeof date)
       console.log(date)
-      return "N/A"
-      //`${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+      return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
     },
 
     clearList() {
