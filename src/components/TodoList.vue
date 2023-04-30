@@ -1,32 +1,34 @@
 <script>
 import { loadFromLocalStorage, saveToLocalStorage } from '../TodoList'
 
+function cvtDate(date) {
+  return new Date(date.split('-')[0], date.split('-')[1] - 1, date.split('-')[2])
+}
+
 export default {
   name: 'TodoList',
 
   data: () => ({
     list: loadFromLocalStorage(),
-     dueDate: (() => {
+    dueDate: (() => {
       const date = new Date()
       console.log(date)
       return `${date.getUTCFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-     
     })(),
     itemToAdd: '',
     imageSource: import('@/components/default_character.jpg'),
-    reaction: true 
+    reaction: true,
+    editingItem: false,
+    editItemIndex: 0,
+    editItemDate: undefined,
+    editItemText: ''
   }),
 
   methods: {
-
     addItem() {
       if (this.itemToAdd) {
         console.log('Adding item: ', this.itemToAdd)
-        const dueDate = new Date(
-          this.dueDate.split('-')[0],
-          this.dueDate.split('-')[1] - 1,
-          this.dueDate.split('-')[2]
-        )
+        const dueDate = cvtDate(this.dueDate)
         this.list.addItem(this.itemToAdd, dueDate)
         this.itemToAdd = ''
         saveToLocalStorage(this.list)
@@ -34,10 +36,24 @@ export default {
       }
     },
 
+    startEdit(id) {
+      this.editingItem = true
+      this.editItemIndex = id
+      this.editItemText = this.list.getItemWithId(id).getDesc()
+      this.editItemDate = this.list.getItemWithId(id).getDueDate()
+    },
+
+    finishEdit() {
+      this.editingItem = false
+      const item = this.list.getItemWithId(this.editItemIndex)
+      item.setDesc(this.editItemText)
+      item.setDueDate(this.editItemDate)
+      saveToLocalStorage(this.list)
+    },
+
     formatDate(date) {
       // Format as MM/DD/YYYY
-      console.log(typeof date)
-      console.log(date)
+      if (typeof date === 'string') throw new Error('Expected date to be a Date object')
       return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
     },
 
@@ -45,7 +61,6 @@ export default {
       if (confirm('Are you sure you want to clear the list?')) {
         this.list.clear()
         saveToLocalStorage(this.list)
-       
       }
     },
 
@@ -53,57 +68,86 @@ export default {
       this.dueDate = event.target.value
     },
 
+    changeEditedDate(event) {
+      this.editItemDate = cvtDate(event.target.value)
+    },
+
     deleteItemWithId(id) {
       this.list.deleteItemWithId(id)
       saveToLocalStorage(this.list)
-      reaction = false 
-      
-    }, 
-    changeImage(){
-      if (reaction == true){
+      reaction = false
+    },
+    changeImage() {
+      if (reaction == true) {
         this.imageSource = import('@/components/reaction_character.jpg')
-        reaction = false 
-      }else{
+        reaction = false
+      } else {
         this.imageSource = import('@/components/default_character.jpg')
-      }
       }
     }
   }
-
+}
 </script>
 
-<template> 
+<template>
   <div>
     <img :src="imageSource" />
-  <ul>
-    <li v-for="item in list.getItems()" :key="item.id">
-      <span>
-        {{ item.getDesc() }}
-        (Due at {{ formatDate(item.getDueDate()) }})
-      </span>
+    <ul>
+      <li v-for="item in list.getItems()" :key="item.id">
+        <div v-if="editingItem && editItemIndex === item.id">
+          <input v-model="editItemText" />
+          <input type="date" :value="formatDate(editItemDate)" @change="changeEditedDate" /> <br />
+          <button @click="finishEdit()">Done</button>
+        </div>
+        <div v-else :class="item.isOverdue() ? 'overdue' : 'fine'">
+          <span>
+            {{ item.getDesc() }}
+            (Due at {{ formatDate(item.getDueDate()) }})
+          </span>
+        </div>
 
-      <ul>
-        <li>
-          <a @click="deleteItemWithId(item.id); changeImage()">Delete</a>
-        </li>
-      </ul>
-    </li>
-  </ul>
+        <ul>
+          <li>
+            <a @click="startEdit(item.id)">Edit</a> |
+            <a
+              @click="
+                deleteItemWithId(item.id)
+                changeImage()
+              "
+              >Complete</a
+            >
+          </li>
+        </ul>
+      </li>
+    </ul>
 
     <div class="new-item">
       <label for="text">New Item: </label>
       <input id="text" type="text" v-model="itemToAdd" /> <br />
       <label for="due">Due Date: </label>
       <input id="due" type="date" :value="dueDate" @change="changeDate" /> <br />
-      <button @click="addItem(); changeImage()">Add Item</button>
-      <button @click="clearList(); changeImage()">Clear List</button>
-      
+      <button
+        @click="
+          addItem()
+          changeImage()
+        "
+      >
+        Add Item
+      </button>
+      <button
+        @click="
+          clearList()
+          changeImage()
+        "
+      >
+        Clear List
+      </button>
+
       <h1 v-if="reaction">Done for the day!</h1>
       <h1 v-else>You got this!</h1>
-      <img src = './kermit.png' >
+      <img src="./kermit.png" />
     </div>
   </div>
- 
 </template>
 
 <style>
@@ -124,5 +168,10 @@ export default {
 .new-item button {
   margin-left: 1em;
   margin-top: 1em;
+}
+
+.overdue {
+  color: red;
+  text-decoration: underline;
 }
 </style>
