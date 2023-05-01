@@ -1,6 +1,6 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import Header from './components/WebHeader.vue'
+import { RouterLink, RouterView } from 'vue-router';
+import Header from './components/WebHeader.vue';
 </script>
 
 <template>
@@ -10,6 +10,7 @@ import Header from './components/WebHeader.vue'
     <div class="wrapper">
       <nav>
         <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/customize">Customize</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
     </div>

@@ -1,8 +1,8 @@
 <script>
-import { loadFromLocalStorage, saveToLocalStorage } from '../TodoList'
+import { loadFromLocalStorage, saveToLocalStorage } from '../TodoList';
 
 function cvtDate(date) {
-  return new Date(date.split('-')[0], date.split('-')[1] - 1, date.split('-')[2])
+  return new Date(date.split('-')[0], date.split('-')[1] - 1, date.split('-')[2]);
 }
 
 export default {
@@ -11,9 +11,9 @@ export default {
   data: () => ({
     list: loadFromLocalStorage(),
     dueDate: (() => {
-      const date = new Date()
-      console.log(date)
-      return `${date.getUTCFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+      const date = new Date();
+      console.log(date);
+      return `${date.getUTCFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     })(),
     itemToAdd: '',
     imageSource: import('@/components/default_character.jpg'),
@@ -27,66 +27,66 @@ export default {
   methods: {
     addItem() {
       if (this.itemToAdd) {
-        console.log('Adding item: ', this.itemToAdd)
-        const dueDate = cvtDate(this.dueDate)
-        this.list.addItem(this.itemToAdd, dueDate)
-        this.itemToAdd = ''
-        saveToLocalStorage(this.list)
-        this.reaction = true
+        console.log('Adding item: ', this.itemToAdd);
+        const dueDate = cvtDate(this.dueDate);
+        this.list.addItem(this.itemToAdd, dueDate);
+        this.itemToAdd = '';
+        saveToLocalStorage(this.list);
+        this.reaction = true;
       }
     },
 
     startEdit(id) {
-      this.editingItem = true
-      this.editItemIndex = id
-      this.editItemText = this.list.getItemWithId(id).getDesc()
-      this.editItemDate = this.list.getItemWithId(id).getDueDate()
+      this.editingItem = true;
+      this.editItemIndex = id;
+      this.editItemText = this.list.getItemWithId(id).getDesc();
+      this.editItemDate = this.list.getItemWithId(id).getDueDate();
     },
 
     finishEdit() {
-      this.editingItem = false
-      const item = this.list.getItemWithId(this.editItemIndex)
-      item.setDesc(this.editItemText)
-      item.setDueDate(this.editItemDate)
-      saveToLocalStorage(this.list)
+      this.editingItem = false;
+      const item = this.list.getItemWithId(this.editItemIndex);
+      item.setDesc(this.editItemText);
+      item.setDueDate(this.editItemDate);
+      saveToLocalStorage(this.list);
     },
 
     formatDate(date) {
       // Format as MM/DD/YYYY
-      if (typeof date === 'string') throw new Error('Expected date to be a Date object')
-      return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+      if (typeof date === 'string') throw new Error('Expected date to be a Date object');
+      return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
     },
 
     clearList() {
       if (confirm('Are you sure you want to clear the list?')) {
-        this.list.clear()
-        saveToLocalStorage(this.list)
+        this.list.clear();
+        saveToLocalStorage(this.list);
       }
     },
 
     changeDate(event) {
-      this.dueDate = event.target.value
+      this.dueDate = event.target.value;
     },
 
     changeEditedDate(event) {
-      this.editItemDate = cvtDate(event.target.value)
+      this.editItemDate = cvtDate(event.target.value);
     },
 
     deleteItemWithId(id) {
-      this.list.deleteItemWithId(id)
-      saveToLocalStorage(this.list)
-      reaction = false
+      this.list.deleteItemWithId(id);
+      saveToLocalStorage(this.list);
+      reaction = false;
     },
     changeImage() {
       if (reaction == true) {
-        this.imageSource = import('@/components/reaction_character.jpg')
-        reaction = false
+        this.imageSource = import('@/components/reaction_character.jpg');
+        reaction = false;
       } else {
-        this.imageSource = import('@/components/default_character.jpg')
+        this.imageSource = import('@/components/default_character.jpg');
       }
     }
   }
-}
+};
 </script>
 
 <template>
@@ -111,8 +111,8 @@ export default {
             <a @click="startEdit(item.id)">Edit</a> |
             <a
               @click="
-                deleteItemWithId(item.id)
-                changeImage()
+                deleteItemWithId(item.id);
+                changeImage();
               "
               >Complete</a
             >
@@ -128,16 +128,16 @@ export default {
       <input id="due" type="date" :value="dueDate" @change="changeDate" /> <br />
       <button
         @click="
-          addItem()
-          changeImage()
+          addItem();
+          changeImage();
         "
       >
         Add Item
       </button>
       <button
         @click="
-          clearList()
-          changeImage()
+          clearList();
+          changeImage();
         "
       >
         Clear List
