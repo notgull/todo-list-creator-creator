@@ -52,4 +52,5 @@ export default class Css {
   static getInstance() {
     return this.instance;
   }
+  
 }

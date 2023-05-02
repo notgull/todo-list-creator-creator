@@ -1,6 +1,5 @@
 // Core TODO list code.
 
-var reaction = false;
 
 export class TodoList {
   constructor() {
@@ -117,17 +116,4 @@ function serializedToDate(serialized) {
     serialized.minutes,
     serialized.seconds
   );
-}
-export class Characters {
-  constructor() {
-    default_imgae = true;
-    reaction_image = false;
-  }
-
-  changeCharacter(input) {
-    if ((input = true)) {
-      default_image = !default_image;
-      reaction_image = !reaction_image;
-    }
-  }
 }

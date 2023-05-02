@@ -16,13 +16,36 @@ export default {
       return `${date.getUTCFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     })(),
     itemToAdd: '',
-    imageSource: import('@/components/default_character.jpg'),
-    reaction: true,
+    happy: true,
     editingItem: false,
     editItemIndex: 0,
     editItemDate: undefined,
-    editItemText: ''
-  }),
+    editItemText: '',
+    image: null,
+    images : [{
+        id : 1,
+        src : "default_character.jpg",
+        alt : "Happy Minion"
+    },
+    {
+        id : 2,
+        src : "reaction_character.jpg",
+        alt : "Unhappy Minion"
+    },
+    {
+      id : 3,
+      src : "kermit.png",
+      alt : "Kermit",
+    },
+    {
+      id : 4, 
+      src : "emmet.jpg",
+      alt : "Stressed"
+    }
+    ]
+  
+  }
+  ),
 
   methods: {
     addItem() {
@@ -32,7 +55,7 @@ export default {
         this.list.addItem(this.itemToAdd, dueDate);
         this.itemToAdd = '';
         saveToLocalStorage(this.list);
-        this.reaction = true;
+        this.happy = false;
       }
     },
 
@@ -61,6 +84,7 @@ export default {
       if (confirm('Are you sure you want to clear the list?')) {
         this.list.clear();
         saveToLocalStorage(this.list);
+        this.happy = false;
       }
     },
 
@@ -75,23 +99,28 @@ export default {
     deleteItemWithId(id) {
       this.list.deleteItemWithId(id);
       saveToLocalStorage(this.list);
-      reaction = false;
+      this.happy = true;
     },
     changeImage() {
-      if (reaction == true) {
-        this.imageSource = import('@/components/reaction_character.jpg');
-        reaction = false;
+      late = this.item.isOverdue();
+      if(happy == false && late == false){
+        this.image = this.images[2];
+      } else if (happy == true && late == true){
+        this.image = this.images[3];
+      } else if(happy == false && late == true){
+        this.image = this.images[4];
       } else {
-        this.imageSource = import('@/components/default_character.jpg');
+        this.image = this.images[1];
       }
+     
     }
   }
 };
+
 </script>
 
 <template>
   <div>
-    <img :src="imageSource" />
     <ul>
       <li v-for="item in list.getItems()" :key="item.id">
         <div v-if="editingItem && editItemIndex === item.id">
@@ -143,9 +172,10 @@ export default {
         Clear List
       </button>
 
-      <h1 v-if="reaction">Done for the day!</h1>
-      <h1 v-else>You got this!</h1>
-      <img src="./kermit.png" />
+      <h1 v-if="happy">You got this!</h1>
+      <h1 v-else>Keep working!</h1>
+      <img :src = "image"/>
+      <img v-if="image" :key = "image.id" class="image" :src = "image.src" alt = "image.alt">
     </div>
   </div>
 </template>
@@ -173,5 +203,16 @@ export default {
 .overdue {
   color: red;
   text-decoration: underline;
+}
+.image {
+  width : 100px;
+  height: 100px;
+  margin: 2px;
+  cursor: pointer;
+  transition: filter 0.3s ease-in;
+}
+
+.image:hover {
+  filter: brightness(1.2);
 }
 </style>
