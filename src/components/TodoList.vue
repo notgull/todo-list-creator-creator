@@ -16,34 +16,38 @@ export default {
       return `${date.getUTCFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     })(),
     itemToAdd: '',
-    happy: true,
+    expression: "",
     editingItem: false,
     editItemIndex: 0,
     editItemDate: undefined,
     editItemText: '',
+    currentImageIndex: 1,
     image: null,
     images : [{
         id : 1,
-        src : "default_character.jpg",
+        expression : "Good Job! You got this!",
+        src : "@/components/default_character.jpg",
         alt : "Happy Minion"
     },
     {
         id : 2,
-        src : "reaction_character.jpg",
+        expression : "Time to focus in and work",
+        src : "@/components/reaction_character.jpg",
         alt : "Unhappy Minion"
     },
     {
       id : 3,
-      src : "kermit.png",
+      expression : "I am impressed with your productivity",
+      src : "@/components/kermit.png",
       alt : "Kermit",
     },
     {
       id : 4, 
-      src : "emmet.jpg",
+      expression : "We are doomed!",
+      src : "@/components/emmet.jpg",
       alt : "Stressed"
     }
     ]
-  
   }
   ),
 
@@ -55,7 +59,7 @@ export default {
         this.list.addItem(this.itemToAdd, dueDate);
         this.itemToAdd = '';
         saveToLocalStorage(this.list);
-        this.happy = false;
+        this.currentImageIndex = 2;
       }
     },
 
@@ -84,7 +88,7 @@ export default {
       if (confirm('Are you sure you want to clear the list?')) {
         this.list.clear();
         saveToLocalStorage(this.list);
-        this.happy = false;
+        this.currentImageIndex = 3;
       }
     },
 
@@ -99,18 +103,13 @@ export default {
     deleteItemWithId(id) {
       this.list.deleteItemWithId(id);
       saveToLocalStorage(this.list);
-      this.happy = true;
+      this.currentImageIndex = 1;
     },
-    changeImage() {
-      late = this.item.isOverdue();
-      if(happy == false && late == false){
-        this.image = this.images[2];
-      } else if (happy == true && late == true){
-        this.image = this.images[3];
-      } else if(happy == false && late == true){
-        this.image = this.images[4];
+    changeImage(index) {
+      if (this.list.length >= 4){
+        this.currentImageIndex = 4;
       } else {
-        this.image = this.images[1];
+      this.currentImageIndex = index;
       }
      
     }
@@ -134,14 +133,14 @@ export default {
             (Due at {{ formatDate(item.getDueDate()) }})
           </span>
         </div>
-
+        
         <ul>
           <li>
             <a @click="startEdit(item.id)">Edit</a> |
             <a
               @click="
                 deleteItemWithId(item.id);
-                changeImage();
+                changeImage(3);
               "
               >Complete</a
             >
@@ -158,7 +157,7 @@ export default {
       <button
         @click="
           addItem();
-          changeImage();
+          changeImage(2);
         "
       >
         Add Item
@@ -166,16 +165,15 @@ export default {
       <button
         @click="
           clearList();
-          changeImage();
+          changeImage(3);
         "
       >
         Clear List
       </button>
 
-      <h1 v-if="happy">You got this!</h1>
-      <h1 v-else>Keep working!</h1>
-      <img :src = "image"/>
-      <img v-if="image" :key = "image.id" class="image" :src = "image.src" alt = "image.alt">
+      
+      <img :src =require(images[currentImageIndex].src) :alt="images[currentImageIndex].alt" class = "image"/>
+      
     </div>
   </div>
 </template>
