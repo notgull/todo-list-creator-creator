@@ -1,12 +1,23 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
 import Header from './components/WebHeader.vue';
+import Css from "./Css"
+
+const css = new Css()
+css.apply()
+
+const openStyle = () => ({
+  color: css.textColor()
+})
+
+const otherStyle = () => ({
+  color: css.emphasizedColor()
+})
 </script>
 
 <template>
   <header>
     <Header></Header>
-
     <div class="wrapper">
       <nav>
         <RouterLink to="/">Home</RouterLink>
@@ -15,6 +26,7 @@ import Header from './components/WebHeader.vue';
       </nav>
     </div>
   </header>
+  <hr />
 
   <RouterView />
 </template>
@@ -57,7 +69,6 @@ nav a:first-of-type {
 
 @media (min-width: 1024px) {
   header {
-    display: flex;
     place-items: center;
     padding-right: calc(var(--section-gap) / 2);
   }
@@ -67,7 +78,6 @@ nav a:first-of-type {
   }
 
   header .wrapper {
-    display: flex;
     place-items: flex-start;
     flex-wrap: wrap;
   }
