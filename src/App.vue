@@ -1,18 +1,18 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
 import Header from './components/WebHeader.vue';
-import Css from "./Css"
+import Css from './Css';
 
-const css = new Css()
-css.apply()
+const css = new Css();
+css.apply();
 
 const openStyle = () => ({
   color: css.textColor()
-})
+});
 
 const otherStyle = () => ({
   color: css.emphasizedColor()
-})
+});
 </script>
 
 <template>

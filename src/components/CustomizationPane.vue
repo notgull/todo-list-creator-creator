@@ -1,41 +1,42 @@
 <script>
 import { defineComponent } from 'vue';
-import Css from "../Css"
+import Css from '../Css';
 
-const css = new Css()
+const css = new Css();
+console.log(css);
 
 export default defineComponent({
   data: () => ({
-    backcolor: css.backgroundColor(),
-    textcolor: css.textColor(),
-    empcolor: css.emphasizedColor(),
+    backcolor: css.backgroundColor,
+    textcolor: css.textColor,
+    empcolor: css.emphasizedColor
   }),
   methods: {
     apply() {
-      css.setBackgroundColor(this.backcolor)
-      css.setTextColor(this.textcolor)
-      css.setEmphasizedColor(this.empcolor)
-      css.applyAndSave()
+      css.setBackgroundColor(this.backcolor);
+      css.setTextColor(this.textcolor);
+      css.setEmphasizedColor(this.empcolor);
+      css.applyAndSave();
     }
   },
   watch: {
     backcolor() {
-      this.apply()
+      this.apply();
     },
     textcolor() {
-      this.apply()
+      this.apply();
     },
     empcolor() {
-      this.apply()
+      this.apply();
     }
-  },
+  }
 });
 </script>
 
 <template>
   <label for="backcolor">Background Color:</label>
   <input type="color" id="backcolor" name="backcolor" v-model="backcolor" />
-  
+
   <label for="textcolor">Text Color:</label>
   <input type="color" id="textcolor" name="textcolor" v-model="textcolor" />
 
