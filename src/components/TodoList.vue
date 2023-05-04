@@ -22,32 +22,7 @@ export default {
     editItemDate: undefined,
     editItemText: '',
     currentImageIndex: 1,
-    image: null,
-    images : [{
-        id : 1,
-        expression : "Good Job! You got this!",
-        src : "@/components/default_character.jpg",
-        alt : "Happy Minion"
-    },
-    {
-        id : 2,
-        expression : "Time to focus in and work",
-        src : "@/components/reaction_character.jpg",
-        alt : "Unhappy Minion"
-    },
-    {
-      id : 3,
-      expression : "I am impressed with your productivity",
-      src : "@/components/kermit.png",
-      alt : "Kermit",
-    },
-    {
-      id : 4, 
-      expression : "We are doomed!",
-      src : "@/components/emmet.jpg",
-      alt : "Stressed"
-    }
-    ]
+    imageSRC: ""
   }
   ),
 
@@ -106,12 +81,11 @@ export default {
       this.currentImageIndex = 1;
     },
     changeImage(index) {
-      if (this.list.length >= 4){
-        this.currentImageIndex = 4;
-      } else {
-      this.currentImageIndex = index;
-      }
-     
+    if(index == 2){
+      imageSRC = "./jeff.png"
+    }else{
+      imageSRC = "./joe.png"
+    }     
     }
   }
 };
@@ -140,7 +114,7 @@ export default {
             <a
               @click="
                 deleteItemWithId(item.id);
-                changeImage(3);
+                changeImage(2);
               "
               >Complete</a
             >
@@ -157,7 +131,7 @@ export default {
       <button
         @click="
           addItem();
-          changeImage(2);
+          changeImage(1);
         "
       >
         Add Item
@@ -165,14 +139,11 @@ export default {
       <button
         @click="
           clearList();
-          changeImage(3);
+          changeImage(2);
         "
       >
         Clear List
       </button>
-
-      
-      <img :src =require(images[currentImageIndex].src) :alt="images[currentImageIndex].alt" class = "image"/>
       
     </div>
   </div>
@@ -202,15 +173,5 @@ export default {
   color: red;
   text-decoration: underline;
 }
-.image {
-  width : 100px;
-  height: 100px;
-  margin: 2px;
-  cursor: pointer;
-  transition: filter 0.3s ease-in;
-}
 
-.image:hover {
-  filter: brightness(1.2);
-}
 </style>
