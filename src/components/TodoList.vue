@@ -16,7 +16,8 @@ export default {
       return `${date.getUTCFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     })(),
     itemToAdd: '',
-    expression: "",
+    currentIndex: 0,
+    expression: false,
     editingItem: false,
     editItemIndex: 0,
     editItemDate: undefined,
@@ -144,8 +145,14 @@ export default {
       >
         Clear List
       </button>
-      
     </div>
+    <div v-if= "expression==true"> 
+      <img src = "./joe.png"/>
+    <div v-if= "expression==false">
+      <img src = "./jeff.png">
+    </div>
+  </div> 
+  <img src = "./jeff.png">
   </div>
 </template>
 
