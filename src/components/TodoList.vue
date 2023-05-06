@@ -150,10 +150,9 @@ export default {
       <img src = "./work.png"/>
     <div v-if= "expression==false">
       <img src = "./good-job.png">
-      <img src: imageSRC>
     </div>
   </div> 
-  <img src = "./work.png">
+  <img src = "./break.png">
   </div>
 </template>
 
