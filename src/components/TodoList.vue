@@ -83,9 +83,9 @@ export default {
     },
     changeImage(index) {
     if(index == 2){
-      imageSRC = "./jeff.png"
+      imageSRC = "./good-job.png"
     }else{
-      imageSRC = "./joe.png"
+      imageSRC = "./work.png"
     }     
     }
   }
@@ -147,12 +147,12 @@ export default {
       </button>
     </div>
     <div v-if= "expression==true"> 
-      <img src = "./joe.png"/>
+      <img src = "./work.png"/>
     <div v-if= "expression==false">
-      <img src = "./jeff.png">
+      <img src = "./good-job.png">
     </div>
   </div> 
-  <img src = "./jeff.png">
+  <img src = "./work.png">
   </div>
 </template>
 
