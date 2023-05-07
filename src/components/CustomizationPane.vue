@@ -26,21 +26,27 @@ export default defineComponent({
     },
     setBackcolor(ev) {
       this.backcolor = ev.target.value;
+      this.apply();
     },
     setTextcolor(ev) {
       this.textcolor = ev.target.value;
+      this.apply();
     },
     setEmpcolor(ev) {
       this.empcolor = ev.target.value;
+      this.apply();
     },
     setFontfamily(ev) {
       this.fontfamily = ev.target.value;
+      this.apply();
     },
     setFontsize(ev) {
       this.fontsize = ev.target.value;
+      this.apply();
     },
     setHighlightondue(ev) {
       this.highlightondue = ev.target.checked;
+      this.apply();
     }
   }
 });

@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from 'vue-router';
 import Header from './components/WebHeader.vue';
 import Css from './Css';
 
-const css = Css.instance;
+const css = Css.getInstance();
 css.apply();
 
 const openStyle = () => ({
