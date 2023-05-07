@@ -1,5 +1,6 @@
 <script>
 import { loadFromLocalStorage, saveToLocalStorage } from '../TodoList';
+import Css from '../Css';
 
 function cvtDate(date) {
   return new Date(date.split('-')[0], date.split('-')[1] - 1, date.split('-')[2]);
@@ -9,6 +10,7 @@ export default {
   name: 'TodoList',
 
   data: () => ({
+    css: Css.getInstance(),
     list: loadFromLocalStorage(),
     dueDate: (() => {
       const date = new Date();
@@ -102,7 +104,7 @@ export default {
           <input type="date" :value="formatDate(editItemDate)" @change="changeEditedDate" /> <br />
           <button @click="finishEdit()">Done</button>
         </div>
-        <div v-else :class="item.isOverdue() ? 'overdue' : 'fine'">
+        <div v-else :class="item.isOverdue() && css.highlightOnDeadline ? 'overdue' : 'fine'">
           <span>
             {{ item.getDesc() }}
             (Due at {{ formatDate(item.getDueDate()) }})
