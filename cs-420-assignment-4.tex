@@ -1,0 +1,112 @@
+\documentclass[12pt]{article}
+
+%
+%Margin - 1 inch on all sides
+%
+\usepackage[letterpaper]{geometry}
+\usepackage{times}
+\geometry{top=1.0in, bottom=1.0in, left=1.0in, right=1.0in}
+
+%
+%Doublespacing
+%
+\usepackage{setspace}
+\doublespacing
+\usepackage{hyperref}
+
+%
+%Rotating tables (e.g. sideways when too long)
+%
+\usepackage{rotating}
+
+
+%
+%Fancy-header package to modify header/page numbering (insert last name)
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{} 
+\chead{} 
+\rhead{Nunley \& Layosa \thepage} 
+\lfoot{} 
+\cfoot{} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{0pt} 
+\renewcommand{\footrulewidth}{0pt} 
+%To make sure we actually have header 0.5in away from top edge
+%12pt is one-sixth of an inch. Subtract this from 0.5in to get headsep value
+\setlength\headsep{0.333in}
+
+%
+%Works cited environment
+%(to start, use \begin{workscited...}, each entry preceded by \bibent)
+% - from Ryan Alcock's MLA style file
+%
+\newcommand{\bibent}{\noindent \hangindent 40pt}
+\newenvironment{workscited}{\newpage \begin{center} Works Cited \end{center}}{\newpage }
+
+
+%
+%Begin document
+%
+\begin{document}
+\begin{flushleft}
+
+%%%%Title
+\begin{center}
+Department of Computer Science and Engineering, University of Nevada, Reno
+
+\textit{\textbf{Team 07: Character Todo List Creator Creator}}
+
+\textbf{Project Part 4: Prototype Implementation}
+
+John Nunley and Eve Layosa
+
+CS 420: Human-Computer Interaction
+
+Instructor: Dr. Sergiu Dascalu
+\end{center}
+
+\newpage
+
+
+%%%%Changes paragraph indentation to 0.5in
+\setlength{\parindent}{0.5in}
+%%%%Begin body of paper here
+
+\textbf{Part 1: Video demo to the instructor and/or TA}
+
+\href{https://youtu.be/xaY1NDPeTa4}{https://youtu.be/xaY1NDPeTa4}
+
+\textbf{Part 2: Source Code}
+
+The source code is included in this ZIP file. The source code is also available on GitHub at \href{https://github.com/notgull/todo-list-creator-creator}{https://github.com/notgull/todo-list-creator-creator}.
+
+This project is a Vite project that aims to build a Single Page Application (SPA) using Vue.js. Once this project is compiled to a handful of static assets, it is served through Amazon S3 static asset host. In exchange for not having a backend, this project uses the "localStorage" web API to keep session information persistent.
+
+The basic Vite setup creates an "App" and mounts it into the HTML web page DOM. Using the Vue Router, we can activate one of the following web pages, which are represented by components under the "views" folder:
+
+\begin{itemize}
+    \item The "Home" Page (HomeView.vue)
+    \item The "Customize" Page (CustomizeView.vue)
+    \item The "About" Page (AboutView.vue)
+\end{itemize}
+
+The core logic is stored in the "TodoList.js" and "Css.js" files. "TodoList.js" provides the "TodoList" class, which is a list of "TODO" items consisting of a description and a due date. The special thing that TodoList provides is the ability to serialize itself and save itself/load itself to/from local storage. This allows the TodoList to be persistent;the UI calls the save function whenever a change is made and the load function at the start of the program.
+
+"Css.js" provides the "Css" class, which contains the customization properties for the application. In addition to containing things like background color and font size, it also contains whether or not the timing mechanism should highlight overdue tasks. Like TodoList, Css provides the ability to serialize itself and save itself/load itself to/from local storage. The "apply" function in the Css applies the current CSS theme to the HTML document.
+
+The top-level component that contains most of the functionality of "TodoList.vue" in the "components" folder. It converts each of the "TodoList" items into an item in an HTML list. In addition to properly formatting it, it also provides the ability to edit, delete, and add list entries. These operations are implemented by running them on the TodoList and then saving them.
+
+The "CustomizationPane.vue" component contains editors for the CSS properties. It isn't that complicated; it simply uses inputs to modify the underlying "Css" class and then saves it to local storage.
+
+\textbf{Part 3: Contributions of Team Members}
+
+\begin{itemize}
+    \item John Nunley spent 15 hours writing and debugging source code, as well as recording and editing the video demo.
+    \item Eve Layosa spent X hours doing Y.
+\end{itemize}
+
+\end{flushleft}
+\end{document}
+\}
